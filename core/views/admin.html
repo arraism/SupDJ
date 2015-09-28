@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="author" content="Arraism" />
+		<meta name="description" content="Welcome to SupDJ" />
+		<meta name="keywords" content="supdj,share,video,youtube" />
+		<meta http-equiv="Cache-Control" content="no-store">
+		<meta http-equiv="Cache-Control" content="no-cache"> <!-- tells browser not to cache -->
+		<meta http-equiv="Cache-Control" content="must-revalidate">
+		<meta http-equiv="expires" content="0"> <!-- says that the cache expires 'now' -->
+		<meta http-equiv="pragma" content="no-cache"> <!-- says not to use cached stuff, if there is any -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="icon" type="image/png" href="/img/icone_music.png">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+		<link href="/css/jquery-ui.theme.css" rel="stylesheet">
+		<link href="/css/jquery-ui.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/admin.css" />
+		<title>Administration</title>
+		<script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript" src="/js/bootstrap.js"></script>
+		<script type="text/javascript" src="/js/jquery-ui.js"></script>
+		<script type="text/javascript" src="js/admin.js"></script>
+		<script>
+			var password = prompt("Enter password", "");
+			if (password != null) {
+				check_password_admin(password);
+			}
+		</script>
+	</head>
+
+
+	<body>
+
+		<div class="container-fluid">
+			<h1>Administration</h1>
+
+			<div id="success_delete_user" class="alert alert-success" role="alert">Account deleted</div>
+			<div id="danger_delete_user" class="alert alert-danger" role="alert"></div>
+
+			<div>
+				<h2 class="form-signin-heading">Manage users</h2>
+
+				<button id="btn_show_new_user" class="btn btn-default popover-dismiss" data-toggle="popover" type="button" onclick="$('#dialog_new_user').dialog('open');">
+					New user
+				</button>
+
+				<br>
+
+				<div id="form_new_user">
+					<h3 id="header_action_user">New user</h3>
+					<div id="success_new_user" class="alert alert-success" role="alert">User created</div>
+					<div id="danger_new_user" class="alert alert-danger" role="alert"></div>
+					<div id="group_form_new_user">
+						<div class="input-group">
+							<span class="input-group-addon">Login</span>
+							<input type="text" class="form-control" id="text_login_new"/>
+							<span class="input-group-addon">Password</span>
+							<input type="text" class="form-control" id="text_password_new"/>
+						</div>
+					</div>
+					<br/>
+					<button id="btn_new_user" class="btn btn-default popover-dismiss" data-toggle="popover" type="button" onclick="new_user();">
+						Create
+					</button>
+					<button class="btn btn-default popover-dismiss" data-toggle="popover" type="button" onclick="hide_new_user();">
+						Cancel
+					</button>
+				</div>
+
+				<br>
+
+				<table id="tab_user" class="table table-striped tablesorter">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Login</th>
+							<th>Password</th>
+							<th>Number of playlists</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+
+				<div id="form_edit_user">
+					<input type="hidden" class="form-control" id="text_id_user"/>
+					<h3 id="header_action_user">Edite user</h3>
+					<div id="success_edit_user" class="alert alert-success" role="alert">User updated</div>
+					<div id="danger_edit_user" class="alert alert-danger" role="alert"></div>
+					<div id="group_form_edit_user">
+						<div class="input-group">
+							<span class="input-group-addon">Login</span>
+							<input type="text" class="form-control" id="text_login"/>
+							<span class="input-group-addon">Password</span>
+							<input type="text" class="form-control" id="text_password"/>
+						</div>
+					</div>
+					<br/>
+					<button id="btn_edite_user" class="btn btn-default popover-dismiss" data-toggle="popover" type="button" onclick="edit_user();">
+						Edit
+					</button>
+					<button class="btn btn-default popover-dismiss" data-toggle="popover" type="button" onclick="hide_edit_user();">
+						Cancel
+					</button>
+				</div>
+
+			</div>
+
+		</div>
+
+<!-- DIALOG -->
+<div id="dialog_new_user" title="New user">
+	<div id="success_new_user" class="alert alert-success" role="alert" style="display:none;">User created</div>
+	<div id="danger_new_user" class="alert alert-danger" role="alert" style="display:none;"></div>
+	<h3 id="header_action_user">Create user</h3>
+	<input id="text_new_login" type="text" class="form-control" placeholder="Pseudo" name="login"><br>
+	<input id="text_new_password" type="password" class="form-control" placeholder="Mot de passe" name="password"><br>
+	<input id="text_new_email" type="email" class="form-control" placeholder="Mail" name="mail"><br><br>
+</div>
+
+<div id="dialog_edit_user" title="Edit user">
+	<div id="success_edit_user" class="alert alert-success" role="alert" style="display:none;">User updated</div>
+	<div id="danger_edit_user" class="alert alert-danger" role="alert" style="display:none;"></div>
+	<input type="hidden" class="form-control" id="text_id_user"/>
+	<h3 id="header_action_user">Edite user</h3>
+	<input id="text_edit_login" type="text" class="form-control" placeholder="Pseudo" name="login"><br>
+	<input id="text_edit_password" type="password" class="form-control" placeholder="Mot de passe" name="password"><br>
+	<input id="text_edit_email" type="email" class="form-control" placeholder="Mail" name="mail"><br><br>
+</div>
+
+	<script>
+	window.onload = function(){
+		$('#success_delete_user').hide();
+		$('#danger_delete_user').hide();
+
+		$('#form_edit_user').hide();
+		$('#form_new_user').hide();
+
+		get_liste_user();
+	}
+	</script>
+
+	</body>
+</html>

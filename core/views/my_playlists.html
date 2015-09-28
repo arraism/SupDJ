@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+	<meta charset="utf-8">
+	<title>My playlists</title>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/js/jquery-ui.js"></script>
+	<link href="/css/my_playlists.css" rel="stylesheet">
+	<link href="/css/jquery-ui.theme.css" rel="stylesheet">
+	<link href="/css/jquery-ui.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="/img/icone_music.png">
+  <body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<a href="" class="navbar-brand">SupDJ</a>
+			<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="collapse navbar-collapse" id="navbar-main">
+			<!--<ul class="nav navbar-nav">
+				<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>
+				<ul class="dropdown-menu" aria-labelledby="themes">
+					<li><a href="../default/">Default</a></li>
+					<li class="divider"></li>
+					<li><a href="../cerulean/">Cerulean</a></li>
+				</ul>
+				</li>
+				<li>
+					<a href="../help/">Help</a>
+				</li>
+			</ul>-->
+
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/disconnect">Disconnect</a></li>
+			</ul>
+
+		</div>	  
+	</div>
+</nav>
+
+	<div id="contenu" class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul id="menu_myplaylists" class="nav nav-pills nav-stacked">
+					<li><a href="/dashboard">Dashboard</a></li>
+					<li class="active"><a href="/my_playlists">My playlists<span class="sr-only">(current)</span></a></li>
+					<li><a href="/profile">Profile</a></li>
+				</ul>
+			</div>
+
+			<div id="corps" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<h1>My playlists</h1>
+				<input type="hidden" class="form-control" id="text_id_playlist" value=""/>
+				<div id="success_playlist" class="alert alert-success" role="alert" style="display:none;"></div>
+				<div id="danger_playlist" class="alert alert-danger" role="alert" style="display:none;"></div>
+				<div id="group_new_playlist" class="input-group">
+					<div class="input-group-btn">
+						<a class="btn btn-default" onclick="show_new_playlist();">New playlist</a>
+					</div>
+					<input type="text" class="form-control" id="text_name_playlist" placeholder="Name" style="display: block;">
+					<div id="div_btn_new_playlist" class="input-group-btn" style="display: table-cell;">
+						<button class="btn btn-default" type="button" onclick="new_playlist();">Create</button>
+					</div>
+				</div>
+				<br>
+				<div id="form_edit_playlist" style="display:none;">
+					<h3 id="header_action_playlist">Edit playlist</h3>
+					<div id="group_form_edit_playlist">
+						<div class="input-group">
+							<span class="input-group-addon">New name :</span>
+							<input type="text" class="form-control" id="text_rename" placeholder="New name"/>
+						</div>
+					</div>
+					<br>
+					<button id="btn_edite_user" class="btn btn-default popover-dismiss" data-toggle="popover" type="button" onclick="edit_playlist();">
+						Edit
+					</button>
+					<button class="btn btn-default popover-dismiss" data-toggle="popover" type="button" onclick="hide_edit_playlist();">
+						Cancel
+					</button>
+				</div>
+				<br>
+				<table id="tab_my_playlists" class="table table-striped table-hover">
+					<thead>
+						<th>Name</th>
+						<th>Number of video</th>
+						<th>Action</th>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<br><br>
+				<div id="div_links" style="display:none;">
+				<h3 id="h3_name_playlist"></h3>
+					<div id="success_video_playlist" class="alert alert-success" role="alert" style="display:none;">Video added to playlist</div>
+					<div id="danger_video_playlist" class="alert alert-danger" role="alert" style="display:none;"></div>
+					<div id="group_add_to_playlist" class="input-group">
+						<div class="input-group-btn">
+							<a class="btn btn-default" onclick="show_add_to_playlist();"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+						</div>
+						<input type="hidden" id="text_id_playlist" name="text_id_playlist">
+						<input type="text" class="form-control" id="text_link" placeholder="Youtube link" style="display: block;">
+						<div id="div_btn_add_to_playlist" class="input-group-btn" style="display: table-cell;">
+							<button class="btn btn-default" type="button" onclick="add_to_playlist();">Add to playlist</button>
+						</div>
+					</div>
+					<br>
+					<table id="tab_links" class="table table-striped table-hover">
+						<thead>
+							<th>Name</th>
+							<th>Duration</th>
+							<th>Link</th>
+							<th>Action</th>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- DIALOG -->
+<div id="dialog-confirm" title="Delete playlist ?" style="display:none;">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>The playlist will be deleted, are you sure ?</p>
+	  <div id="div_btn_delete_playlist" style="float: right;">
+	  	<button type="button" class="btn btn-large btn-primary" onclick="delete_playlist();">Yes</button>
+		<button type="button" class="btn btn-default" onclick="$('#dialog-confirm').dialog('close');">Cancel</button>
+	  </div>
+</div>
+
+<script type="text/javascript" src="/js/app.js"></script>
+<script type="text/javascript" src="/js/my_playlists.js"></script>
+<script>
+	window.onload = function(){
+		if(sessionStorage.getItem("login") == undefined){
+			document.location = '/index';
+		}
+
+		$('#text_name_playlist').hide();
+		$('#div_btn_new_playlist').hide();
+
+		$('#text_link').hide();
+		$('#div_btn_add_to_playlist').hide();
+
+		get_rooms();
+		get_playlist();
+	}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+	<meta charset="utf-8">
+	<title></title>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/js/jquery-ui.js"></script>
+	<link href="/css/room.css" rel="stylesheet">
+	<link href="/css/jquery-ui.theme.css" rel="stylesheet">
+	<link href="/css/jquery-ui.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="/img/icone_music.png">
+  <body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+		  <a href="" class="navbar-brand">SupDJ</a>
+		  <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+		</div>
+		<div class="collapse navbar-collapse" id="navbar-main">
+		  <!--<ul class="nav navbar-nav">
+			<li class="dropdown">
+			  <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>
+			  <ul class="dropdown-menu" aria-labelledby="themes">
+				<li><a href="../default/">Default</a></li>
+				<li class="divider"></li>
+				<li><a href="../cerulean/">Cerulean</a></li>
+			  </ul>
+			</li>
+			<li>
+			  <a href="../help/">Help</a>
+			</li>
+		  </ul>-->
+
+		  <ul class="nav navbar-nav navbar-right">
+			<li><a href="/disconnect">Disconnect</a></li>
+		  </ul>
+
+		</div>	  
+	</div>
+</nav>
+
+	<div id="contenu" class="container-fluid">
+		<div class="row">
+			<div class="colonne-left">
+				<ul class="nav nav-pills nav-stacked">
+					<li class="active" id="menu_room"><a href="#"><span class="sr-only">(current)</span></a></li>
+					<li><a href="/dashboard">Dashboard</a></li>
+					<li><a id="menu_myplaylists" href="/my_playlists">My playlists</a></li>
+					<li><a href="/profile">Profile</a></li>
+				</ul>
+			</div>
+			
+			<div id="corps" class="colonne-mid">
+				<div class="main">
+					<h1 id="header_room"></h1>
+					<div id="youtube_player" style="display:none;">
+						You need Flash player 8+ and JavaScript enabled to view this video.
+						<!--<iframe id="frame_video" width="420" height="315" src="">
+						</iframe>-->
+
+					</div>
+					<br>
+						<span style="color: white;" class="glyphicon glyphicon-volume-up" aria-hidden="true">
+							<input id="slider_volume" type="range" title="50" name="points" min="0" value="50" max="100" onchange="change_volume();" style="margin-left:20px; margin-top:-10px;">
+						</span>
+					<br><br>
+					<div id="room_info">
+
+					</div>
+					<br><br>
+					<div id="action">
+						<button id="btn_add" class="btn btn-default" type="button" onclick="show_group_add_to_queue();" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Add link video to queue">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						</button>
+							<button id="btn_add_playlist" class="btn btn-default" type="button" onclick="show_group_add_playlist_to_queue();" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Add playlist to queue">
+							<span class="glyphicon glyphicon-film" aria-hidden="true"></span>
+						</button>
+							<button id="btn_add" class="btn btn-default" type="button" onclick="show_group_get_current_video();" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Add current video to playlist">
+							<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+						</button>
+					</div>
+					<br>
+					<div id="forms">
+						<div id="success_add_to_queue" class="alert alert-success" role="alert" style="display:none;">Link added to the queue</div>
+						<div id="danger_add_to_queue" class="alert alert-danger" role="alert" style="display:none;"></div>
+						<div id="group_add_to_queue" class="input-group" style="display:none;">
+							<div class="input-group-btn">
+								<a class="btn btn-default">Link : </a>
+							</div>
+							<input type="text" class="form-control" id="text_link" placeholder="Youtube link" style="display: block;">
+							<div id="div_btn_add_to_queue" class="input-group-btn" style="display: table-cell;">
+								<button class="btn btn-default" type="button" onclick="add_to_queue();">Add</button>
+							</div>
+						</div>
+						<div id="group_add_playlist_to_queue" class="input-group" style="display:none;">
+							<!-- Button and dropdown menu -->
+							<button class="btn btn-default" type="button" onclick="add_playlist_to_queue();" style="border-top-left-radius: 5;border-bottom-left-radius: 5;border-top-right-radius: 0;border-bottom-right-radius: 0;">Add playlist to the queue</button>
+							<button id="btn_playlist" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-top-right-radius: 5;border-bottom-right-radius: 5;border-top-left-radius: 0;border-bottom-left-radius: 0;">Select playlist <span class="caret"></span></button>
+								<ul class="dropdown-menu" id="liste_playlist" style="margin-left:180px;">
+								</ul>
+						</div>
+						<div id="group_get_current_video" class="input-group" style="display:none;">
+							<!-- Button and dropdown menu -->
+							<button class="btn btn-default" type="button" onclick="get_current_video();" style="border-top-left-radius: 5;border-bottom-left-radius: 5;border-top-right-radius: 0;border-bottom-right-radius: 0;">Add current video to playlist</button>
+							<button id="btn_get_current_video" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-top-right-radius: 5;border-bottom-right-radius: 5;border-top-left-radius: 0;border-bottom-left-radius: 0;">Select playlist <span class="caret"></span></button>
+								<ul class="dropdown-menu" id="liste_playlist_1" style="margin-left:180px;">
+								</ul>
+						</div>
+					</div>
+					<br>
+					<div id="interface_admin">
+						<h3>Manage room</h3>
+						<button id="btn_next_video" class="btn btn-default popover-dismiss" data-toggle="tooltip" data-placement="bottom" title="Too much cancer ?" type="button" onclick="skip_video();">
+							Skip video
+						</button>
+						<button id="btn_close_room" class="btn btn-default" type="button" onclick="close_room();">
+							Close room
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="colonne-right">
+				<h2>Chat</h2>
+				<div id="chat_messages" style="height: 70%;">
+				</div>
+				<br>
+				<div id="form_chat_message">
+					<textarea maxlength="100" class="form-control" rows="3" id="text_chat_message"></textarea>
+					<button id="btn_chat_message" type="submit" class="btn btn-default">Send</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+<!-- DIALOG -->
+<div id="dialog-confirm" title="Close room ?" style="display:none;">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are you sure to close the room ?</p>
+	<div id="div_btn_close_room" style="float: right;">
+		<button type="button" class="btn btn-large btn-primary" onclick="close_room();">Close</button>
+		<button type="button" class="btn btn-default" onclick="$('#dialog-confirm').dialog('close');">Cancel</button>
+	</div>
+</div>
+<div id="dialog-message" title="Room closed" style="display:none;">
+  <p>
+	<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+	Too much cancer on this room, admin closed it.
+  </p>
+  <p>
+	Everyone get out of here !
+  </p>
+  <div id="div_btn_kick" style="float: right;">
+	<button type="button" class="btn btn-large btn-primary" onclick="window.location.href = '/dashboard';">Ok</button>
+  </div>
+</div>
+
+	<script src="https://www.youtube.com/player_api"></script>
+	<script type="text/javascript" src="/js/app.js"></script>
+	<script type="text/javascript" src="/js/classes/Room.js"></script>
+	<script type="text/javascript" src="/js/classes/User.js"></script>
+	<script type="text/javascript" src="/js/room.js"></script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script>
+	{% autoescape false %}
+	//http://www.youtube.com/v/UA36g0wDDXM?controls=0
+	//http://www.youtube.com/watch?v=uYh6VlMvZ9w?controls=0
+		ROOM = JSON.parse('{{ room }}');
+		ME = JSON.parse('{{ user }}');
+		TIMER = '{{ timer }}';
+	{% endautoescape %}
+		var socket = io.connect("http://{{ server.ip }}:{{ server.port }}");
+		socket.id_user = ME.id_user;
+		socket.emit("connexion");
+	window.onload = function(){
+		if(window.location.href.indexOf("?") != -1){
+			window.history.pushState("", "", window.location.href.substr(0,window.location.href.indexOf("?")));
+			//window.location.href = window.location.href.substr(0,window.location.href.indexOf("?"));
+		}
+
+		$(document).tooltip();
+
+		document.title = ROOM.name;
+
+		if(ME.is_admin == 0){
+			$('#interface_admin').remove();
+		}
+
+		$('#menu_room').html("<a href=\"#\">"+ROOM.name+"<span class=\"sr-only\">(current)</span></a>");
+		$('#header_room').html(ROOM.name);
+
+		$('#menu_myplaylists').attr("href", "/my_playlists?id_user="+sessionStorage.getItem("id_user"));
+
+		$('#room_info').html("<span id=\"room_info_nb_user\" style=\"color: white;\" class=\"glyphicon glyphicon-headphones\" aria-hidden=\"true\">&nbsp;"+ROOM.users.length+"</span>");
+
+		register_socket();
+		get_my_playlist();
+		setTimeout("play();youtube_player.setVolume(50);",1000);
+	}
+	</script>
+	<script type="text/javascript" src="/js/socket_client.js"></script>
+	<script type="text/javascript" src="/js/classes/youtube_player.js"></script>
+  </body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="author" content="Arraism" />
+	<meta name="description" content="Welcome to SupDJ" />
+	<meta name="keywords" content="supdj,share,video,youtube" />
+	<meta http-equiv="Cache-Control" content="no-store">
+	<meta http-equiv="Cache-Control" content="no-cache"> <!-- tells browser not to cache -->
+	<meta http-equiv="Cache-Control" content="must-revalidate">
+	<meta http-equiv="expires" content="0"> <!-- says that the cache expires 'now' -->
+	<meta http-equiv="pragma" content="no-cache"> <!-- says not to use cached stuff, if there is any -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Welcome to SupDJ !</title>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/js/jquery-ui.js"></script>
+	<link href="/css/bootstrap.css" rel="stylesheet">
+	<link href="/css/style.css" rel="stylesheet">
+	<link href="/css/jquery-ui.theme.css" rel="stylesheet">
+	<link href="/css/jquery-ui.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="/img/icone_music.png">
+  <body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+		  <a href="" class="navbar-brand">SupDJ</a>
+		  <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+		</div>
+		<div class="collapse navbar-collapse" id="navbar-main">
+		  <!--<ul class="nav navbar-nav">
+			<li class="dropdown">
+			  <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>
+			  <ul class="dropdown-menu" aria-labelledby="themes">
+				<li><a href="../default/">Default</a></li>
+				<li class="divider"></li>
+				<li><a href="../cerulean/">Cerulean</a></li>
+			  </ul>
+			</li>
+			<li>
+			  <a href="../help/">Help</a>
+			</li>
+		  </ul>-->
+
+		  <ul class="nav navbar-nav navbar-right">
+			<li><button id="btn_show_login" class="btn btn-large btn-primary" type="button" onclick="$('#dialog_login').dialog('open');">Log in</button></li>
+			<li><button id="btn_show_register" class="btn btn-large btn-primary" type="button" onclick="$('#dialog_register').dialog('open');">Register</button></li>
+		  </ul>
+
+		</div>
+	</div>
+</nav>
+
+  <!-- CAROUSEL -->
+  <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="10000">
+	  <!-- Indicators -->
+	  <ol class="carousel-indicators">
+		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		<li data-target="#myCarousel" data-slide-to="1" class=""></li>
+		<li data-target="#myCarousel" data-slide-to="2" class=""></li>
+	  </ol>
+	  <div class="carousel-inner" role="listbox">
+		<div class="item active">
+		  <div class="container">
+			<div class="carousel-caption">
+			  <h1>Welcome to SupDJ !</h1>
+			  <p>SupDJ consists of different online chatrooms, called "communities", that you can freely create.</p>
+			  <button id="btn_show_register" class="btn btn-large btn-primary" type="button" onclick="$('#dialog_register').dialog('open');">Register</button>
+			</div>
+		  </div>
+		</div>
+		<div class="item">
+		  <div class="container">
+			<div class="carousel-caption">
+			  <h1>Share what you like !</h1>
+			  <p> Inside each community, you may choose to join a wait list and wait for their turn to be the DJ for everyone else in the community, playing a video or song chosen from Youtube, or simply listen passively.</p>
+			</div>
+		  </div>
+		</div>
+		<div class="item">
+		  <div class="container">
+			<div class="carousel-caption">
+			  <h1>Chat with others !</h1>
+			  <p>You may also chat with your community, discuss and vote positively or negatively for each song or video played, or add it to their own playlists.</p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		<span class="sr-only">Previous</span>
+	  </a>
+	  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+		<span class="sr-only">Next</span>
+	  </a>
+	</div>
+
+	<!-- CONTENT -->	
+	<div class="container">
+		
+	</div>
+
+	<!-- DIALOG -->
+	<div id="dialog_login">
+		<div id="alert_login" class="alert alert-danger" style="display:none;"></div>
+		<form id="form_login" name="form_login" class="form-signin">
+			<h3 class="form-signin-heading">Connexion</h3>
+			<input id="text_connexion_login" type="text" class="form-control" placeholder="Pseudo" name="login" value="arraism"><br>
+			<input id="text_connexion_password" type="password" class="form-control" placeholder="Mot de passe" name="password" value="arraism"><br><br>
+			<div id="div_btn_login" style="float: right;">
+				<button type="button" class="btn btn-large btn-primary" onclick="connexion();">Log in</button>
+				<button type="button" class="btn btn-default" onclick="$('#dialog_login').dialog('close');$('#dialog_register').dialog('open');">Register</button>
+				<button type="button" class="btn btn-default" onclick="$('#dialog_login').dialog('close');">Cancel</button>
+			</div>
+		</form>
+	</div>
+
+	<div id="dialog_register">
+	<div id="success_register" class="alert alert-success" style="display:none;"></div>
+	<div id="alert_register" class="alert alert-danger" style="display:none;"></div>
+		<form id="form_register" name="form_register" class="form-signin">
+			<h3 class="form-signin-heading">Register</h3>
+			<input id="registerLogin" type="text" class="form-control" placeholder="Pseudo" name="login"><br>
+			<input id="registerPassword" type="password" class="form-control" placeholder="Mot de passe" name="password"><br>
+			<input id="registerEmail" type="email" class="form-control" placeholder="Mail" name="mail"><br><br>
+			<div id="div_btn_register" style="float: right;">
+				<button type="button" class="btn btn-large btn-primary" onclick="register();">Register</button>
+				<button type="button" class="btn btn-default" onclick="$('#dialog_register').dialog('close');">Cancel</button>
+			</div>
+		</form>
+	</div>
+
+	<script type="text/javascript" src="/js/login.js"></script>
+	<script>
+		$('.myCarousel').carousel();
+	</script>
+  </body>
+</html>

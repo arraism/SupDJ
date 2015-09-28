@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+	<meta charset="utf-8">
+	<title>Dashboard</title>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/js/jquery-ui.js"></script>
+	<link href="/css/dashboard.css" rel="stylesheet">
+	<link href="/css/jquery-ui.theme.css" rel="stylesheet">
+	<link href="/css/jquery-ui.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="/img/icone_music.png">
+  <body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+		  <a href="" class="navbar-brand">SupDJ</a>
+		  <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+		</div>
+		<div class="collapse navbar-collapse" id="navbar-main">
+		  <!--<ul class="nav navbar-nav">
+			<li class="dropdown">
+			  <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>
+			  <ul class="dropdown-menu" aria-labelledby="themes">
+				<li><a href="../default/">Default</a></li>
+				<li class="divider"></li>
+				<li><a href="../cerulean/">Cerulean</a></li>
+			  </ul>
+			</li>
+			<li>
+			  <a href="../help/">Help</a>
+			</li>
+		  </ul>-->
+
+		  <ul class="nav navbar-nav navbar-right">
+			<li><a href="/disconnect">Disconnect</a></li>
+		  </ul>
+
+		</div>
+	</div>
+</nav>
+
+	<div id="contenu" class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+			  <ul id="menu_dashboard" class="nav nav-pills nav-stacked">
+				<li class="active"><a href="#">Dashboard<span class="sr-only">(current)</span></a></li>
+				<li><a id="menu_myplaylists" href="/my_playlists">My playlists</a></li>
+				<li><a href="/profile">Profile</a></li>
+			  </ul>
+			</div>
+			
+			<div id="corps" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<h1>Dashboard</h1>
+				<button id="btn_new_room" class="btn btn-default popover-dismiss" data-toggle="popover" type="button" onclick="show_form_new_room();">
+					New room
+				</button>
+				<br><br>
+				<div id="form_new_room" style="display:none;">
+				<div id="alert_danger" class="alert alert-danger" role="alert" style="display:none;"></div>
+				<div class="well bs-component">
+				  <form id="myform_new_room" class="form-horizontal" method="post" action="/new_room">
+					<input id="id_user" type="hidden" value="" name="id_user">
+					<fieldset>
+					  <legend>New room</legend>
+					  <div class="form-group">
+						<label for="text_room_name" class="col-lg-3 control-label">Name</label>
+						<div class="col-lg-9">
+						  <input type="text" class="form-control" id="text_room_name" placeholder="Name" name="room_name" value="">
+						</div>
+					  </div>
+					  <div class="form-group">
+						<label for="text_room_password" class="col-lg-3 control-label">Password</label>
+						<div class="col-lg-9">
+						  <div class="checkbox">
+							<label>
+							  <input type="checkbox" onchange="activate_password();"> Activate password
+							</label>
+						  </div>
+						  <input type="password" disabled class="form-control" id="text_room_password" placeholder="Password" name="room_password">
+						</div>
+					  </div>
+					  <div class="form-group">
+						<label for="text_room_name" class="col-lg-3 control-label">Queue length</label>
+						<div class="col-lg-9">
+						  <input type="text" class="form-control" id="text_room_max_length_queue" placeholder="Length" name="room_max_length_queue" value="">
+						</div>
+					  </div>
+					  <div class="form-group">
+						<div class="col-lg-9 col-lg-offset-2">
+						  <button type="button" class="btn btn-primary" onclick="check_form_room();">Create</button>
+						  <button type="reset" class="btn btn-default" onclick="hide_form_new_room();">Cancel</button>
+						</div>
+					  </div>
+					</fieldset>
+				  </form>
+				<div id="source-button" class="btn btn-primary btn-xs" style="display: none;">&lt; &gt;</div></div>
+			  </div>
+			  <br>
+				<div id="rooms">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- DIALOG -->
+<div id="dialog-password" title="Password required" style="display:none;">
+	<div id="danger_password" class="alert alert-danger" role="alert">Password incorrect.</div>
+  <p class="validateTips">You need password to enter this room</p>
+ 
+  <form>
+    <fieldset>
+      <input type="hidden" id="text_id_room" name="id_room" value ="">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="text_password" value="" class="text ui-widget-content ui-corner-all"><br>
+      <div id="div_btn_room" style="float: right;">
+	      <button type="button" class="btn btn-large btn-primary" onclick="join_room();">Join</button>
+		  <button type="button" class="btn btn-default" onclick="$('#text_password').val('');$('#dialog-password').dialog('close');">Cancel</button>
+ 	  </div>
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+
+<script type="text/javascript" src="/js/app.js"></script>
+<script type="text/javascript" src="/js/dashboard.js"></script>
+<script>
+	//var socket = io.connect("http://{{ server.ip }}:{{ server.port }}");
+	//socket.emit("connexion");
+	window.onload = function(){
+		if(sessionStorage.getItem("login") == undefined){
+			document.location = '/index';
+		}
+		$('#menu_myplaylists').attr("href", "/my_playlists?id_user="+sessionStorage.getItem("id_user"));
+
+		$('#id_user').val(sessionStorage.getItem("id_user"));
+
+		get_rooms();
+	}
+</script>
+
+</body>
+</html>
